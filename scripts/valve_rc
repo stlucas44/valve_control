@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+
+import rospy
+from std_msgs.msg import Bool
+from mavros_msgs.msg import RCIn
+
+rc_topic = "rc_in" # or /force for default settings
+channel = 8
+
+valve_topic = "nozzle"
+
+
+def rc_callback(msg):
+    rospy.loginfo_once("Received first RCIn from mavros_node")
+
+    # Translate to bool
+    new_msg = Bool()
+    new_msg.data = msg.channels[7] > 1700
+
+    pub.publish(new_msg)
+
+if __name__ == '__main__':
+    rospy.init_node('valve_translator')
+    rospy.Subscriber("rc_topic", RCIn, rc_callback)
+
+    pub = rospy.Publisher(valve_topic, Bool, queue_size=1)
+
+    rospy.spin()

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="mav_name" default="kolibri"/>
+  <arg name="USB_port" default="/dev/ttyUSB.arduvalve" />
+
+  <group ns="$(arg mav_name)">
+    <node pkg="rosserial_arduino" type="serial_node.py" name="arduValve" args="$(arg USB_port)" output="screen" />
+    <node pkg="valve_control" type="valve_rc" name="rcValve"/>
+
+  </group>
+</launch>

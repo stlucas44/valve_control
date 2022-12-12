@@ -4,8 +4,11 @@
   <arg name="USB_port" default="/dev/ttyUSB.arduvalve" />
 
   <group ns="$(arg mav_name)">
-    <node pkg="rosserial_arduino" type="serial_node.py" name="arduValve" args="$(arg USB_port)" output="screen" respawn="true"/>
-    <node pkg="valve_control" type="valve_rc" name="rcValve"/>
-
+    <node pkg="rosserial_arduino" type="serial_node.py" name="arduValve" args="$(arg USB_port)" output="screen" respawn="true">
+      <param name="capability_group" value="Spraying" />
+    </node>
+    <node pkg="valve_control" type="valve_rc" name="rcValve">
+      <param name="capability_group" value="Spraying" />
+    </node>
   </group>
 </launch>
